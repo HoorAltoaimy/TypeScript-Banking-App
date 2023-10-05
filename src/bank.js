@@ -28,7 +28,7 @@ class Customer{
     }
     //Adds a successful transaction of the amount to the transactions array.
     addTransactions(amount){
-        if(this.getBalance() < 0){ //should check balance
+        if(amount < 0){ 
             return false;
         }
         else{
@@ -92,7 +92,13 @@ class Bank{
     }
     //Adds the customer to the branch of the bank. Each customer can only be added once to a branch.
     addCustomer(branch, customer){ 
-       
+        if(this.branches.includes(branch)){
+            branch.addCustomer(customer);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     //Adds a transaction of the amount for the customer with the specified customerId in the given branch.
     addCustomerTransaction(){
@@ -100,7 +106,7 @@ class Bank{
     }
     //Returns a list of matched branches with the specified branchName or null if no matches were found.
     findBranchByName(branchName){
-    
+        
     }
     //Returns true if the branch belongs to the bank or false otherwise.
     checkBranch(branch){
@@ -116,3 +122,21 @@ class Bank{
 
     }
 }
+
+const c1 = new Customer('h', '1');
+c1.addTransactions(1000);
+c1.addTransactions(2000);
+c1.addTransactions(-4000);
+//console.log(c1.getBalance()); //should not be negative
+
+const sb = new Branch('sun br');
+ console.log(sb.addCustomer(c1));
+// console.log(sb.addCustomer(c1));
+
+//console.log(sb.addCustomerTransaction('1', 5000));
+
+const b1 = new Bank('bank1');
+console.log(b1.addBranch('sb'));
+console.log(b1.addBranch('sb'));
+console.log(b1.addBranch('gb'));
+console.log(b1.findBranchByName('sb'));
