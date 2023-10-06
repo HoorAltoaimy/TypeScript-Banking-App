@@ -27,14 +27,14 @@ class Customer{
     }
     //Adds a successful transaction of the amount to the transactions array.
     addTransactions(amount){
-        if((this.getBalance()+amount) < 0){  //since balance should not be negative
-            console.log('transaction failed, there is no enough balanc');
+        if((this.getBalance() + amount) < 0){  //since balance should not be negative
+            console.log('transaction failed, there is no enough balanc\n');
             return false;
         }
         else{
             const transaction = new Transaction(amount, new Date());
             this.transactions.push(transaction);
-            console.log('transaction successful');
+            console.log('transaction successful\n');
             return true;
         }
     }
@@ -70,8 +70,19 @@ class Branch{
             return true;
         }
         else{
-            console.log('transaction failed, customer not found');
+            console.log('transaction failed, customer not found\n');
             return false;
+        }
+    }
+    /*Add search functionality to allow users to search for specific customers based on 
+      keywords or specific fields, such as by name or Id*/
+    findCustomer(customerName){
+        const customer = this.customers.find(customer => (customer.name ===  customerName));
+        if(customer){
+            console.log('customer found: ', customer, '\n');
+        }
+        else{
+            console.log('customer not found\n');
         }
     }
 }
@@ -85,11 +96,11 @@ class Bank{
     addBranch(branch){ 
         if(!this.branches.includes(branch)){
             this.branches.push(branch);
-            console.log('branch added successfully');
+            console.log('branch added successfully\n');
             return true;
         }
         else{
-            console.log('this branch is already existed');
+            console.log('this branch is already existed\n');
             return false;
         }
     }
@@ -97,12 +108,12 @@ class Bank{
     addCustomer(branch, customer){ 
         if(this.branches.includes(branch)){
             if(branch.getCustomers().includes(customer)){
-                console.log('customer already existed');
+                console.log('customer already existed\n');
                 return false;
             }
             else{
                 branch.addCustomer(customer);
-                console.log('customer added successfully');
+                console.log('customer added successfully\n');
                 return true;
             }
         }
@@ -117,7 +128,7 @@ class Bank{
             return true;
         }
         else{
-            console.log('branch not found');
+            console.log('branch not found\n');
             return false;
         } 
     }
@@ -125,11 +136,11 @@ class Bank{
     findBranchByName(branchName){
         const branchArray = this.branches.filter(branch => branch.name === branchName);
         if(branchArray.length > 0){
-            console.log('branch found');
+            console.log('branch found:');
             return branchArray;
         }
         else{
-            console.log('branch not found');
+            console.log('branch not found\n');
             return null;
         }
     }
@@ -146,14 +157,16 @@ class Bank{
     listCustomers(branch, includeTransactions){
         if(this.branches.includes(branch)){
             if(includeTransactions){
-                console.log(`the list of customers in ${branch.getName()} is: `, branch.getCustomers());
+                console.log(`the list of customers in ${branch.getName()} is: `);
+                console.log(branch.getCustomers(), '\n');
             }
             else{
-                console.log(`the list of customers in ${branch.getName()} is: `, branch.getCustomers().map(customer => {return[customer.name, customer.id] }));
+                console.log(`the list of customers in ${branch.getName()} is: `);
+                console.log(branch.getCustomers().map(customer => {return[customer.name, customer.id]}), '\n');
             }
         }
         else{
-            console.log('branch not found');
+            console.log('branch not found\n');
         }
     }
 }
@@ -169,6 +182,7 @@ arizonaBank.addBranch(westBranch)
 arizonaBank.addBranch(sunBranch)
 arizonaBank.addBranch(westBranch) 
 
+console.log(arizonaBank.findBranchByName("West Branch"), '\n');
 arizonaBank.findBranchByName("bank")
 arizonaBank.findBranchByName("sun")
 
@@ -182,6 +196,7 @@ arizonaBank.addCustomerTransaction(westBranch, customer1.getId(), 2000)
 arizonaBank.addCustomerTransaction(westBranch, customer2.getId(), 3000)
 
 customer1.addTransactions(-1000)
-console.log('balance = ',customer1.getBalance())
+console.log('balance = ',customer1.getBalance(), '\n')
 arizonaBank.listCustomers(westBranch, true)
 arizonaBank.listCustomers(sunBranch,true)
+westBranch.findCustomer("John");
