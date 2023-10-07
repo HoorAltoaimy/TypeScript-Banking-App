@@ -169,7 +169,6 @@ class Bank{
                 console.log(`the list of the customers in ${branch.getName()} is: `);
                 branch.getCustomers().forEach(customer => {
                     console.log('Name:', customer.name, ', id:', customer.id, customer.transactions);
-                    //console.log(branch.getCustomers(), '\n');
                 })
             }
             else{
