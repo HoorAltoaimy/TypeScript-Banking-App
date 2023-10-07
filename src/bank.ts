@@ -166,8 +166,11 @@ class Bank{
     listCustomers(branch: Branch, includeTransactions: boolean){
         if(this.branches.includes(branch)){
             if(includeTransactions){
-                console.log(`the list of customers in ${branch.getName()} is: `);
-                console.log(branch.getCustomers(), '\n');
+                console.log(`the list of the customers in ${branch.getName()} is: `);
+                branch.getCustomers().forEach(customer => {
+                    console.log('Name:', customer.name, ', id:', customer.id, customer.transactions);
+                    //console.log(branch.getCustomers(), '\n');
+                })
             }
             else{
                 console.log(`the list of customers in ${branch.getName()} is: `);
@@ -207,5 +210,5 @@ arizonaBank.addCustomerTransaction(westBranch, customer2.getId(), 3000)
 customer1.addTransactions(-1000)
 console.log('balance = ',customer1.getBalance(), '\n')
 arizonaBank.listCustomers(westBranch, true)
-arizonaBank.listCustomers(sunBranch,true)
+arizonaBank.listCustomers(sunBranch,false)
 westBranch.findCustomer("John");
