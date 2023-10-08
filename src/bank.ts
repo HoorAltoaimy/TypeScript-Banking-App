@@ -17,21 +17,21 @@ class Customer{
         this.transactions = []; 
     }
 
-    getName(){
+    getName(): string{
         return this.name;
     }
-    getId(){
+    getId(): number{
         return this.id;
     }
-    getTransactions(){
+    getTransactions(): Transaction[]{
         return this.transactions;
     }
-    getBalance(){
+    getBalance(): number{
         const balance = this.transactions.reduce((prev, current) => prev + current.amount, 0);
         return balance;
     }
     //Adds a successful transaction of the amount to the transactions array.
-    addTransactions(amount: number){
+    addTransactions(amount: number): boolean{
         if((this.getBalance() + amount) < 0){  //since balance should not be negative
             console.log('transaction failed, there is no enough balanc\n');
             return false;
@@ -53,14 +53,14 @@ class Branch{
         this.customers = [];
     }
 
-    getName(){
+    getName(): string{
         return this.name;
     }
-    getCustomers(){
+    getCustomers(): Customer[]{
         return this.customers;
     }
     //Adds the customer to the customers array. Each customer should only be added once.
-    addCustomer(customer: Customer){
+    addCustomer(customer: Customer): boolean{
         if(!this.customers.includes(customer)){
             this.customers.push(customer);
             return true;
@@ -70,7 +70,7 @@ class Branch{
         }
     }
     //Adds a transaction of the amount for the customer with the specified customerId.
-    addCustomerTransaction(customerId: number, amount: number){
+    addCustomerTransaction(customerId: number, amount: number): boolean{
         const customer: Customer = this.customers.find(customer => (customer.id ===  customerId));
         if(customer){
             customer.addTransactions(amount);
@@ -83,7 +83,7 @@ class Branch{
     }
     /*Add search functionality to allow users to search for specific customers based on 
       keywords or specific fields, such as by name or Id*/
-    findCustomer(customerName: string){
+    findCustomer(customerName: string): void{
         const customer = this.customers.find(customer => (customer.name ===  customerName));
         if(customer){
             console.log('customer found: ', customer, '\n');
@@ -102,7 +102,7 @@ class Bank{
         this.branches = [];
     }
     //Adds the branch to the branches array. Each branch should only be added once.
-    addBranch(branch: Branch){ 
+    addBranch(branch: Branch): boolean{ 
         if(!this.branches.includes(branch)){
             this.branches.push(branch);
             console.log('branch added successfully\n');
@@ -114,7 +114,7 @@ class Bank{
         }
     }
     //Adds the customer to the branch of the bank. Each customer can only be added once to a branch.
-    addCustomer(branch: Branch, customer: Customer){ 
+    addCustomer(branch: Branch, customer: Customer): boolean{ 
         if(this.branches.includes(branch)){
             if(branch.getCustomers().includes(customer)){
                 console.log('customer already existed\n');
@@ -131,7 +131,7 @@ class Bank{
         }
     }
     //Adds a transaction of the amount for the customer with the specified customerId in the given branch.
-    addCustomerTransaction(branch: Branch, customerId: number, amount: number){
+    addCustomerTransaction(branch: Branch, customerId: number, amount: number): boolean{
         if(this.branches.includes(branch)){  
             branch.addCustomerTransaction(customerId, amount);
             return true;
@@ -142,7 +142,7 @@ class Bank{
         } 
     }
     //Returns a list of matched branches with the specified branchName or null if no matches were found.
-    findBranchByName(branchName: string){
+    findBranchByName(branchName: string): Branch[]{
         const branchArray = this.branches.filter(branch => branch.name === branchName);
         if(branchArray.length > 0){
             console.log('branch found:');
@@ -154,7 +154,7 @@ class Bank{
         }
     }
     //Returns true if the branch belongs to the bank or false otherwise.
-    checkBranch(branch: Branch){
+    checkBranch(branch: Branch): boolean{
         if(this.branches.includes(branch)){
             return true;
         }
@@ -163,7 +163,7 @@ class Bank{
         } 
     }
     //Prints out a list of customers with their transaction details if includeTransactions is true.
-    listCustomers(branch: Branch, includeTransactions: boolean){
+    listCustomers(branch: Branch, includeTransactions: boolean): void{
         if(this.branches.includes(branch)){
             if(includeTransactions){
                 console.log(`the list of the customers in ${branch.getName()} is: `);
